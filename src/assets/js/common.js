@@ -39,7 +39,9 @@ export default class Common extends Vue {
 
       const formData = new FormData()
       for (let key in otherParams) {
-        formData.append(key, JSON.stringify(otherParams[key]))
+        const keyVal = otherParams[key];
+        const value = keyVal instanceof Object ? JSON.stringify(keyVal) : keyVal;
+        formData.append(key, value);
       }
       axios({
           url: url + this.test,
