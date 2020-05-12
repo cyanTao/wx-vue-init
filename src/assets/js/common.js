@@ -345,4 +345,33 @@ export default class Common extends Vue {
     }
     document.body.removeChild(input)
   }
+
+  /**
+   * async方法异常捕获
+   * @param {Function} asnycFunc 要捕获的async 方法
+   */
+  static async errorCaptured(asnycFunc) {
+    try {
+      let res = await asnycFunc()
+      return [null, res]
+    } catch (e) {
+      return [e, null]
+    }
+  }
+
+  /**
+   * 将回调函数转为 promise 的辅助函数
+   * @param {*} fn 要转的回调函数
+   */
+  static promisify(fn) {
+    return function () {
+      const args = Array.prototype.slice.call(arguments)
+      return new Promise(function (resolve) {
+        args.push(function (result) {
+          resolve(result)
+        })
+        fn.apply(null, args)
+      })
+    }
+  }
 }
