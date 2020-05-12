@@ -35,15 +35,11 @@ export default {
     }
   },
   methods: {
-    getList() {
-      this.$common
-        .http({
-          url: this.$url.getChartList,
-          data: { page: 1, keywords: '', page_size: 9999 }
-        })
-        .then(res => {
-          this.list = res.data
-        })
+    async getList() {
+      return this.$common.http({
+        url: this.$url.getChartList,
+        data: { page: 1, keywords: '', page_size: 9999 }
+      })
     },
     goChartDetail(item) {
       var type = item.type,
@@ -76,8 +72,22 @@ export default {
       }
     }
   },
-  created() {
-    this.getList()
+  async created() {
+    //anync异常捕获
+    const [err, res] = await this.$common.errorCaptured(this.getList)
+    console.log(err, res)
+
+    function test(a, b, time, cb) {
+      setTimeout(() => {
+        cb(a + '-' + b)
+      }, time)
+    }
+
+    // promisify
+    const newFn = this.$common.promisify(test)
+    newFn(1, 3, 2000).then(res => {
+      console.log(2222222, res)
+    })
   }
 }
 </script>
