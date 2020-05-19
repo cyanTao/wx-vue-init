@@ -1,7 +1,14 @@
 <template>
   <section class="body">
     <!-- 头部banner图 -->
-    <div class="banner"></div>
+    <div
+      class="banner"
+      @click="
+        $router.push({
+          path: '/debug/123'
+        })
+      "
+    ></div>
     <!-- 图表列表 -->
     <div class="chart-list" v-if="list.length">
       <div class="list-item" v-for="item in list" :key="item.id" @click="goChartDetail(item)">

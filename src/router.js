@@ -38,12 +38,19 @@ export default new Router({
       ]
     },
     {
-      path: '/debug',
+      path: '/debug/:id',
       name: '/debug',
       component: () => import('./views/debug.vue'),
       meta: {
         title: '调试',
         keepAlive: false
+      },
+      props: (route) => {
+        console.log(route)
+        return {
+          id: route.query.id,
+          test: route
+        }
       }
     },
     {
