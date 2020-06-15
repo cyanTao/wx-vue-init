@@ -374,4 +374,15 @@ export default class Common extends Vue {
       })
     }
   }
+
+  static debounce = (cb, ms = 300) => {
+    let timer = null;
+    return function () {
+      var args = Array.from(arguments)
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        cb.apply(this, args)
+      }, ms);
+    };
+  };
 }
